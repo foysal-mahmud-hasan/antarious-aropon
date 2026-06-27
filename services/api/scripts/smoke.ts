@@ -64,6 +64,25 @@ async function main() {
   const list = await authed.finance.list({ orgId: cur.orgId, limit: 10 });
   console.log('7. finance.list →', list.length, 'txns; latest:', list[0]?.category, list[0]?.amountPoisha);
 
+  // Switch to T1 (tester tier toggle) and exercise the orders flow.
+  await authed.billing.setTier({ orgId: cur.orgId, tier: 't1' });
+  const t1 = appRouter.createCaller(await ctxFor(`Bearer ${session.token}`)); // reload ctx → t1 entitlements
+  const t1cur = await t1.org.current();
+  console.log('8. setTier(t1) → effective tier', t1cur.tier, 'orders entitlement?', t1cur.entitlements['orders.confirmation']);
+
+  const order = await t1.orders.create({
+    orgId: cur.orgId,
+    customerName: 'রহিম',
+    customerPhone: '+8801712345678',
+    channel: 'facebook',
+    items: [{ productName: 'শাড়ি', quantity: 2, unitPricePoisha: 120000 }],
+  });
+  console.log('9. orders.create →', order);
+
+  await t1.orders.setStatus({ orgId: cur.orgId, orderId: order.id, status: 'confirmed' });
+  const orders = await t1.orders.list({ orgId: cur.orgId });
+  console.log('10. orders.list →', orders.length, 'first:', orders[0]?.customerName, orders[0]?.status, orders[0]?.totalPoisha);
+
   console.log('\n✅ smoke passed');
   process.exit(0);
 }

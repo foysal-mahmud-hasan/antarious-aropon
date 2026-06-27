@@ -57,6 +57,8 @@ export const orders = pgTable(
       .notNull()
       .references(() => organizations.id, { onDelete: 'cascade' }),
     customerId: uuid('customer_id').references(() => customers.id, { onDelete: 'set null' }),
+    customerName: text('customer_name').notNull().default(''),
+    customerPhone: text('customer_phone'),
     channel: channelEnum('channel').notNull().default('manual'),
     status: orderStatusEnum('status').notNull().default('pending'),
     paymentStatus: paymentStatusEnum('payment_status').notNull().default('due'),
