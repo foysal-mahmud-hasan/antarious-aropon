@@ -33,5 +33,6 @@ export { SectionHeader, type SectionHeaderProps } from './components/SectionHead
 export { AppHeader, type AppHeaderProps } from './components/AppHeader';
 export { EmptyState, type EmptyStateProps } from './components/EmptyState';
 export { MetricCard, type MetricCardProps, type MetricTone } from './components/MetricCard';
+export { Grid, type GridProps } from './components/Grid';
 export { TierGate, type TierGateProps } from './components/TierGate';
 export { AdaptiveShell, type NavItem, type AdaptiveShellProps } from './AdaptiveShell';

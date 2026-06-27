@@ -10,6 +10,7 @@ import {
   Card,
   Chip,
   EmptyState,
+  Grid,
   Input,
   SectionHeader,
   XStack,
@@ -129,22 +130,25 @@ export default function OrdersScreen() {
       </Card>
 
       <SectionHeader title="অর্ডার সমূহ" />
-      <YStack gap="$sm">
-        {(ordersQ.data ?? []).map((o) => (
-          <OrderRow
-            key={o.id}
-            order={o}
-            total={formatBDT(o.totalPoisha, locale)}
-            onConfirm={() => setStatus.mutate({ orderId: o.id, status: 'confirmed' })}
-            onDeliver={() => setStatus.mutate({ orderId: o.id, status: 'delivered' })}
-            onCancel={() => setStatus.mutate({ orderId: o.id, status: 'cancelled' })}
-            onTogglePay={() =>
-              setPay.mutate({ orderId: o.id, paymentStatus: o.paymentStatus === 'paid' ? 'due' : 'paid' })
-            }
-          />
-        ))}
-        {ordersQ.data && ordersQ.data.length === 0 ? <Caption>কোনো অর্ডার নেই</Caption> : null}
-      </YStack>
+      {ordersQ.data && ordersQ.data.length === 0 ? (
+        <Caption>কোনো অর্ডার নেই</Caption>
+      ) : (
+        <Grid minItemWidth={320}>
+          {(ordersQ.data ?? []).map((o) => (
+            <OrderRow
+              key={o.id}
+              order={o}
+              total={formatBDT(o.totalPoisha, locale)}
+              onConfirm={() => setStatus.mutate({ orderId: o.id, status: 'confirmed' })}
+              onDeliver={() => setStatus.mutate({ orderId: o.id, status: 'delivered' })}
+              onCancel={() => setStatus.mutate({ orderId: o.id, status: 'cancelled' })}
+              onTogglePay={() =>
+                setPay.mutate({ orderId: o.id, paymentStatus: o.paymentStatus === 'paid' ? 'due' : 'paid' })
+              }
+            />
+          ))}
+        </Grid>
+      )}
     </YStack>
   );
 }

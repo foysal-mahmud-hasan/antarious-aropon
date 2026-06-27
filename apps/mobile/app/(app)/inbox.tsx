@@ -9,6 +9,7 @@ import {
   Card,
   Chip,
   EmptyState,
+  Grid,
   Input,
   SectionHeader,
   StatusPill,
@@ -161,11 +162,11 @@ export default function InboxScreen() {
           action={<Button label="ডেমো লোড করুন" disabled={seed.isPending} onPress={() => seed.mutate()} />}
         />
       ) : (
-        <YStack gap="$sm">
+        <Grid minItemWidth={320}>
           {(listQ.data ?? []).map((c) => (
             <ConversationRow key={c.id} conv={c} onPress={() => setSelected(c.id)} />
           ))}
-        </YStack>
+        </Grid>
       )}
     </YStack>
   );

@@ -9,6 +9,7 @@ import {
   Caption,
   Card,
   Chip,
+  Grid,
   HeroCard,
   Input,
   MetricCard,
@@ -93,11 +94,11 @@ export default function FinanceScreen() {
         ]}
       />
 
-      <XStack gap="$md" flexWrap="wrap">
+      <Grid minItemWidth={150}>
         <MetricCard label={t('finance.income')} value={formatBDT(summaryQ.data?.incomePoisha ?? 0, locale)} tone="income" />
         <MetricCard label={t('finance.expense')} value={formatBDT(summaryQ.data?.expensePoisha ?? 0, locale)} tone="expense" />
         <MetricCard label={t('finance.profit')} value={formatBDT(summaryQ.data?.profitPoisha ?? 0, locale)} tone="default" />
-      </XStack>
+      </Grid>
 
       <Card gap="$md">
         <Body fontWeight="600">{t('finance.addTransaction')}</Body>
@@ -136,19 +137,22 @@ export default function FinanceScreen() {
       </Card>
 
       <SectionHeader title="ইতিহাস" />
-      <YStack gap="$sm">
-        {(listQ.data ?? []).map((tx) => (
-          <TransactionRow
-            key={tx.id}
-            type={tx.type}
-            amount={formatBDT(tx.amountPoisha, locale)}
-            category={tx.category}
-            note={tx.note}
-            date={formatDate(tx.occurredAt, locale)}
-          />
-        ))}
-        {listQ.data && listQ.data.length === 0 ? <Caption>কোনো লেনদেন নেই</Caption> : null}
-      </YStack>
+      {listQ.data && listQ.data.length === 0 ? (
+        <Caption>কোনো লেনদেন নেই</Caption>
+      ) : (
+        <Grid minItemWidth={300}>
+          {(listQ.data ?? []).map((tx) => (
+            <TransactionRow
+              key={tx.id}
+              type={tx.type}
+              amount={formatBDT(tx.amountPoisha, locale)}
+              category={tx.category}
+              note={tx.note}
+              date={formatDate(tx.occurredAt, locale)}
+            />
+          ))}
+        </Grid>
+      )}
     </YStack>
   );
 }
