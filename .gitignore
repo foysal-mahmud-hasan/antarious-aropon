@@ -1,0 +1,38 @@
+# dependencies
+node_modules/
+.pnp.*
+
+# build / cache
+dist/
+web-build/
+.expo/
+.turbo/
+*.tsbuildinfo
+coverage/
+
+# native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+ios/
+android/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

@@ -1,0 +1,22 @@
+{
+  "name": "@aropon/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(eslint configured at M0 CI step)\"",
+    "test": "echo \"(no tests)\""
+  },
+  "dependencies": {
+    "@aropon/api-server": "workspace:*",
+    "@trpc/client": "^11.0.0-rc.660",
+    "superjson": "^2.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

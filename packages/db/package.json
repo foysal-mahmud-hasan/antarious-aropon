@@ -1,0 +1,22 @@
+{
+  "name": "@aropon/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./local": "./src/local/sqlite.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(eslint configured at M0 CI step)\"",
+    "test": "echo \"(no tests)\""
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.36.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

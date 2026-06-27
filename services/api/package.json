@@ -1,0 +1,36 @@
+{
+  "name": "@aropon/api-server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"(eslint configured at M0 CI step)\"",
+    "test": "echo \"(no tests)\""
+  },
+  "dependencies": {
+    "@aropon/config": "workspace:*",
+    "@aropon/core": "workspace:*",
+    "@aropon/db": "workspace:*",
+    "@aropon/validators": "workspace:*",
+    "@hono/node-server": "^1.13.7",
+    "@hono/trpc-server": "^0.3.4",
+    "@trpc/server": "^11.0.0-rc.660",
+    "drizzle-orm": "^0.36.4",
+    "hono": "^4.6.13",
+    "postgres": "^3.4.5",
+    "superjson": "^2.2.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
