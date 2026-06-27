@@ -1,8 +1,14 @@
 # Aropon Design System — Tokens
 
-> **Source of truth** for the `packages/ui` Tamagui theme. Every color, size, space,
-> radius, shadow, and motion value an Aropon surface uses lives here. Components must
-> reference these tokens by name — **never** hardcode a hex, px, or ms value.
+> ⚠️ **SUPERSEDED PALETTE.** The brand is now **Antarious blue `#27a7e1`** with **Hind Siliguri**
+> font and a **full-playful** style (gradient hero cards, emoji icons, confetti, blob/bounce/pulse).
+> The **authoritative tokens** are `packages/ui/src/tokens.ts` + `packages/ui/tamagui.config.ts`,
+> documented in [`../research/design-tokens.md`](../research/design-tokens.md). The specific teal
+> `#0e7490` hex values **below are historical** — the structure (token names, scales, shadow/motion
+> approach) still holds; only the color values + font changed. Use the Antarious values.
+
+> **Token discipline** for the `packages/ui` Tamagui theme: components reference tokens by name —
+> **never** hardcode a hex, px, or ms value.
 
 Aropon is a **mobile-first**, **Bengali-first** SaaS for Bangladeshi MSMEs, built with
 **Expo + React Native Web + Tamagui**. The visual language is teal/cyan, rounded-card,

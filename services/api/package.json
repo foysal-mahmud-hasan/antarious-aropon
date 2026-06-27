@@ -12,7 +12,7 @@
     "start": "node dist/server.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"(eslint configured at M0 CI step)\"",
-    "test": "echo \"(no tests)\""
+    "test": "vitest run"
   },
   "dependencies": {
     "@aropon/config": "workspace:*",
@@ -33,6 +33,7 @@
     "@types/node": "^22.9.0",
     "esbuild": "^0.24.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
   }
 }
