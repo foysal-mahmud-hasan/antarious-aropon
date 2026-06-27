@@ -1,0 +1,34 @@
+# Aropon nginx site. Serves the prebuilt web (static) and proxies the API to Node on :8787.
+# Copy to /etc/nginx/sites-available/aropon, symlink into sites-enabled, then `nginx -t && systemctl reload nginx`.
+# For HTTPS use certbot (see DEPLOY.md) — it rewrites this server block for you.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name _;            # replace _ with your domain for certbot
+
+    root /var/www/aropon;     # web-build is rsynced here
+    index index.html;
+
+    # gzip
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+
+    # API → bundled Node server
+    location /trpc/ {
+        proxy_pass http://127.0.0.1:8787;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location = /health {
+        proxy_pass http://127.0.0.1:8787;
+    }
+
+    # SPA: every other path falls back to index.html (client-side routing)
+    location / {
+        try_files $uri /index.html;
+    }
+}

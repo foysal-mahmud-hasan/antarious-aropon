@@ -1,0 +1,20 @@
+# systemd unit for the Aropon API (bundled single file). Install to /etc/systemd/system/.
+# Reads env from /opt/aropon/api.env. The server auto-runs migrations + demo seed on start.
+[Unit]
+Description=Aropon API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/aropon
+EnvironmentFile=/opt/aropon/api.env
+ExecStart=/usr/bin/node /opt/aropon/server.mjs
+Restart=always
+RestartSec=3
+User=aropon
+# migrations live next to the bundle
+Environment=MIGRATIONS_DIR=/opt/aropon/migrations
+
+[Install]
+WantedBy=multi-user.target

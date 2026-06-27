@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "echo \"(server runs via tsx; bundle/build configured at the deploy step)\"",
-    "start": "tsx src/server.ts",
+    "build": "esbuild src/server.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/server.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\" && cp -rf ../../packages/db/migrations dist/migrations",
+    "start": "node dist/server.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"(eslint configured at M0 CI step)\"",
     "test": "echo \"(no tests)\""
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
+    "esbuild": "^0.24.0",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
