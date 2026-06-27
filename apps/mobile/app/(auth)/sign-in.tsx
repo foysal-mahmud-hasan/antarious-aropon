@@ -55,7 +55,9 @@ export default function SignIn() {
       const orgId = res.orgs[0]?.orgId;
       if (!orgId) throw new Error('No workspace');
       signIn({ userId: res.user.id, token: res.token, orgId });
-      router.replace('/finance');
+      // New own-number signups land on "choose your plan"; everyone else goes to the app.
+      const firstTime = 'created' in res && res.created;
+      router.replace(firstTime ? '/plans' : '/finance');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'যাচাই ব্যর্থ হয়েছে');
     } finally {

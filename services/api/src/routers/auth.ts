@@ -49,7 +49,9 @@ export const authRouter = router({
       throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired code' });
     }
     let user = await ctx.db.query.users.findFirst({ where: eq(schema.users.phone, input.phone) });
+    let created = false;
     if (!user) {
+      created = true;
       const userId = randomUUID();
       await bootstrapOrg(ctx.db, { userId, phone: input.phone, orgName: 'আমার ব্যবসা', tier: 't0' });
       user = { id: userId, phone: input.phone, displayName: null, locale: 'bn', createdAt: new Date() };
@@ -60,6 +62,7 @@ export const authRouter = router({
     });
     return {
       token,
+      created,
       user: { id: user.id, phone: user.phone },
       orgs: memberships.map((m) => ({ orgId: m.orgId, role: m.role })),
     };

@@ -1,13 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import type { Tier } from '@aropon/validators';
-import { Body, Button, Caption, Card, Chip, SectionHeader, XStack, YStack } from '@aropon/ui';
+import { Body, Button, Caption, Card, SectionHeader, YStack } from '@aropon/ui';
 import i18next from '../../lib/i18n';
 import { api } from '../../lib/trpc';
 import { useAuth } from '../../lib/auth';
-
-const TIERS: Tier[] = ['t0', 't1'];
+import { PLANS } from '../../lib/plans';
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -19,18 +17,11 @@ export default function SettingsScreen() {
   const qc = useQueryClient();
 
   const orgQ = useQuery({ queryKey: ['org', orgId], queryFn: () => api.org.current.query() });
-  const currentTier = orgQ.data?.tier;
-
-  const switchTier = useMutation({
-    mutationFn: (tier: Tier) => api.billing.setTier.mutate({ orgId, tier }),
-    onSuccess: () => {
-      void qc.invalidateQueries(); // refresh entitlement-gated screens
-    },
-  });
+  const currentPlan = PLANS.find((p) => p.id === orgQ.data?.tier);
 
   const resetData = useMutation({
     mutationFn: () => api.auth.resetMyData.mutate(),
-    onSuccess: () => void qc.invalidateQueries(), // back to a clean slate
+    onSuccess: () => void qc.invalidateQueries(),
   });
 
   function toggleLocale() {
@@ -43,22 +34,16 @@ export default function SettingsScreen() {
     <YStack gap="$md">
       <SectionHeader title={t('nav.settings')} />
 
-      {/* TEST BUILD: switch tier to try T0 vs T1 features. Replaced by real billing in production. */}
       <Card gap="$md">
-        <Body fontWeight="600">প্যাকেজ (টেস্ট)</Body>
+        <Body fontWeight="700">👑 প্যাকেজ</Body>
         <Caption>
-          {locale === 'bn' ? 'বর্তমান প্যাকেজ' : 'Current plan'}: {currentTier ? t(`tier.${currentTier}`) : '…'}
+          বর্তমান: {currentPlan ? `${currentPlan.name} (${currentPlan.price}/মাস)` : '…'}
         </Caption>
-        <XStack gap="$sm" flexWrap="wrap">
-          {TIERS.map((tier) => (
-            <Chip
-              key={tier}
-              label={t(`tier.${tier}`)}
-              active={currentTier === tier}
-              onPress={() => switchTier.mutate(tier)}
-            />
-          ))}
-        </XStack>
+        <Button
+          label="সব প্যাকেজ দেখুন ও পরিবর্তন করুন →"
+          variant="primary"
+          onPress={() => router.push('/plans')}
+        />
       </Card>
 
       <Card gap="$md">

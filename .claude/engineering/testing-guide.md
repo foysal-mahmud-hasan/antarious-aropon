@@ -16,8 +16,11 @@ shows the sidebar layout.
    pre-filled (test mode) → **এগিয়ে যান**. This is a **persistent private** workspace — come back to
    the same number to resume it.
 
-> In **Settings → 🧹 ডেটা রিসেট**, "Reset my data" wipes your workspace back to clean.
-> In **Settings → প্যাকেজ (টেস্ট)**, switch **T0 ↔ T1** to compare tiers in one account.
+> **Plans:** new own-number signups land on the **প্যাকেজ** (choose-your-plan) screen; it's also at
+> **Settings → প্যাকেজ → সব প্যাকেজ দেখুন**. It shows all 5 tiers with prices, your **current** plan
+> (badged), and for higher tiers **"✨ নতুন যা পাবেন"** (what upgrading adds). Live tiers (T0/T1) have
+> an upgrade button (switches in test mode); T2–T4 show "শীঘ্রই".
+> **Reset:** Settings → 🧹 ডেটা রিসেট wipes your workspace back to clean.
 
 ### What to verify — Tier 0 (Offline Mode)
 - **হিসাব:** balance hero card shows; add an income/expense (type, amount, category, note) → it
