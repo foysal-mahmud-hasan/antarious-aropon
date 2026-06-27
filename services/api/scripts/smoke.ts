@@ -58,6 +58,12 @@ async function main() {
   });
   console.log('5. finance.summary →', summary);
 
+  const balance = await authed.finance.balance({ orgId: cur.orgId });
+  console.log('6. finance.balance →', balance);
+
+  const list = await authed.finance.list({ orgId: cur.orgId, limit: 10 });
+  console.log('7. finance.list →', list.length, 'txns; latest:', list[0]?.category, list[0]?.amountPoisha);
+
   console.log('\n✅ smoke passed');
   process.exit(0);
 }

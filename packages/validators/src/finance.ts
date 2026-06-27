@@ -25,3 +25,12 @@ export const financeSummaryInput = z.object({
   to: z.string().datetime(),
 });
 export type FinanceSummaryInput = z.infer<typeof financeSummaryInput>;
+
+export const listTransactionsInput = z.object({
+  orgId: uuidSchema,
+  limit: z.number().int().min(1).max(100).default(50),
+});
+export type ListTransactionsInput = z.infer<typeof listTransactionsInput>;
+
+export const orgScopedInput = z.object({ orgId: uuidSchema });
+export type OrgScopedInput = z.infer<typeof orgScopedInput>;

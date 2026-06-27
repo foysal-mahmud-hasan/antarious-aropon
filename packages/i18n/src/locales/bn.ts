@@ -8,6 +8,7 @@ export const bn = {
   },
   nav: {
     finance: 'হিসাব',
+    orders: 'অর্ডার',
     inbox: 'বার্তা',
     calendar: 'ক্যালেন্ডার',
     brandStudio: 'ব্র্যান্ড স্টুডিও',

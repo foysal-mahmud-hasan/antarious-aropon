@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { ScrollView } from 'react-native';
 import { Stack, Text, useMedia } from '@tamagui/core';
 import { XStack, YStack } from './primitives';
 
@@ -34,9 +35,11 @@ export function AdaptiveShell({
   const wide = media.lg; // >= 900px
 
   const content = (
-    <YStack flex={1} width="100%" maxWidth={wide ? 1200 : undefined} alignSelf="center" padding="$lg">
-      {children}
-    </YStack>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+      <YStack width="100%" maxWidth={wide ? 1200 : undefined} alignSelf="center" padding="$lg">
+        {children}
+      </YStack>
+    </ScrollView>
   );
 
   if (wide) {

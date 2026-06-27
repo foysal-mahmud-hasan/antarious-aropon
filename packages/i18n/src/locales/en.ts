@@ -10,6 +10,7 @@ export const en: TranslationResources = {
   },
   nav: {
     finance: 'Finance',
+    orders: 'Orders',
     inbox: 'Inbox',
     calendar: 'Calendar',
     brandStudio: 'Brand Studio',
