@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Aropon",
+    "slug": "aropon",
+    "scheme": "aropon",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}

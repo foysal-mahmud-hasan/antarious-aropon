@@ -6,17 +6,23 @@
 
 | Tier | Name | Who it's for | Headline value |
 |---|---|---|---|
-| **T0** | Offline Mode | Solo micro-sellers, first run | Fully-offline bookkeeping, free |
-| **T1** | Starter | Small shops getting online | Cloud sync + basics + AI captions |
-| **T2** | Growth | Sellers doing social commerce | Social inbox + AI copy + insights |
-| **T3** | Pro | Multi-staff businesses | Auto-replies, scheduling, AI logo, team |
-| **T4** | Business | Larger MSMEs / multi-outlet | Higher limits, all features, priority |
+| **T0** | Offline Mode | Offline & micro sellers | Fully-offline bookkeeping + Brand Studio AI (logo/caption/copy), 200 BDT |
+| **T1** | Social Commerce | Shops selling on FB/IG | FB/IG inbox, auto-replies + escalation, order confirmation, revenue/expense/profit + AI insights, calendar |
+| **T2** | Commerce | Growing online sellers | Website integration, inventory, courier |
+| **T3** | CRM & Growth | Multi-staff businesses | Lead capture, customer DB, scoring, AI upsell/cross-sell |
+| **T4** | Business Intelligence | Larger MSMEs | Dashboards, summaries, analytics, AI lead-closing |
 
 > **T0 + T1 ship first** (per the approved roadmap); T2–T4 entitlements are defined now so gating and upgrade flows exist from day one.
 
-## 2. Entitlement map (authoritative data structure)
+## 2. Entitlement map
 
-This is the single source of truth consumed by the engine. Booleans = feature on/off; numbers = limits (`-1` = unlimited).
+> **Authoritative source = code:** `packages/core/src/entitlements/tiers.ts` (with keys in
+> `keys.ts`). It is **brief-aligned and cumulative** — T0 includes Brand Studio AI
+> (`brand.ai_logo`/`brand.ai_caption`/`brand.copywriting`) and basic bookkeeping; each higher tier
+> inherits the lower tier and adds capabilities (enforced by a test in `entitlements.test.ts`).
+> The snippet below is **illustrative**; if it ever disagrees with the code, the code wins.
+
+Booleans = feature on/off; numbers = limits (`-1` = unlimited).
 
 ```ts
 // packages/core/entitlements/tiers.ts
