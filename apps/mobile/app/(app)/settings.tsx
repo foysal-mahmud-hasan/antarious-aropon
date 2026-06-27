@@ -28,6 +28,11 @@ export default function SettingsScreen() {
     },
   });
 
+  const resetData = useMutation({
+    mutationFn: () => api.auth.resetMyData.mutate(),
+    onSuccess: () => void qc.invalidateQueries(), // back to a clean slate
+  });
+
   function toggleLocale() {
     const next = locale === 'bn' ? 'en' : 'bn';
     setLocale(next);
@@ -62,6 +67,21 @@ export default function SettingsScreen() {
           label={locale === 'bn' ? 'Switch to English' : 'বাংলায় দেখুন'}
           variant="outline"
           onPress={toggleLocale}
+        />
+      </Card>
+
+      <Card gap="$md">
+        <Body fontWeight="600">🧹 {locale === 'bn' ? 'ডেটা রিসেট' : 'Reset data'}</Body>
+        <Caption>
+          {locale === 'bn'
+            ? 'এই ওয়ার্কস্পেসের সব ডেটা মুছে নতুন করে শুরু করুন'
+            : 'Wipe this workspace and start fresh'}
+        </Caption>
+        <Button
+          label={locale === 'bn' ? 'আমার ডেটা রিসেট করুন' : 'Reset my data'}
+          variant="outline"
+          disabled={resetData.isPending}
+          onPress={() => resetData.mutate()}
         />
       </Card>
 

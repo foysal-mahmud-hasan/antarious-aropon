@@ -1,59 +1,117 @@
-import { styled, Stack, Text, type GetProps } from '@tamagui/core';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Stack, Text } from '@tamagui/core';
+import { XStack } from '../primitives';
+import { gradients } from '../tokens';
+import { fireConfetti } from '../confetti';
 
-const ButtonFrame = styled(Stack, {
-  name: 'ButtonFrame',
-  role: 'button',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '$sm',
-  borderRadius: '$btn',
-  paddingHorizontal: '$lg',
-  cursor: 'pointer',
-  pressStyle: { opacity: 0.85 },
-  hoverStyle: { opacity: 0.95 },
-  variants: {
-    variant: {
-      primary: { backgroundColor: '$primary' },
-      secondary: { backgroundColor: '$secondary' },
-      outline: { backgroundColor: 'transparent', borderWidth: 1.5, borderColor: '$primary' },
-      ghost: { backgroundColor: '$backgroundPress' },
-      danger: { backgroundColor: '$expense' },
-      income: { backgroundColor: '$income' },
-      expense: { backgroundColor: '$expense' },
-    },
-    size: {
-      sm: { height: 36, paddingHorizontal: '$md' },
-      md: { height: 50 },
-      lg: { height: 56 },
-      xl: { height: 68 },
-    },
-    disabled: { true: { opacity: 0.5, pointerEvents: 'none' } },
-  } as const,
-  defaultVariants: { variant: 'primary', size: 'md' },
-});
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'income'
+  | 'expense';
+export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
-type FrameProps = GetProps<typeof ButtonFrame>;
-type Variant = NonNullable<FrameProps['variant']>;
+const HEIGHT: Record<ButtonSize, number> = { sm: 36, md: 50, lg: 56, xl: 68 };
 
-export interface ButtonProps extends FrameProps {
+export interface ButtonProps {
   label: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  icon?: string;
+  onPress?: () => void;
 }
 
-const FILLED: Variant[] = ['primary', 'secondary', 'danger', 'income', 'expense'];
+const GRADIENT: Partial<Record<ButtonVariant, readonly [string, string, ...string[]]>> = {
+  primary: gradients.hero,
+  income: gradients.income,
+  danger: gradients.expense,
+  expense: gradients.expense,
+};
 
-export function Button({ label, variant = 'primary', ...rest }: ButtonProps) {
-  const onInverse = FILLED.includes(variant);
-  return (
-    <ButtonFrame variant={variant} {...rest}>
-      <Text
-        fontFamily="$body"
-        fontSize="$4"
-        fontWeight="600"
-        color={onInverse ? '$colorInverse' : '$primary'}
+/** Playful button — gradient fills, tap-scale, confetti on primary/income CTAs. */
+export function Button({
+  label,
+  variant = 'primary',
+  size = 'md',
+  disabled,
+  fullWidth,
+  icon,
+  onPress,
+}: ButtonProps) {
+  const height = HEIGHT[size];
+  const grad = GRADIENT[variant];
+
+  const handlePress = () => {
+    if (disabled) return;
+    if (variant === 'primary' || variant === 'income') fireConfetti();
+    onPress?.();
+  };
+
+  if (grad) {
+    return (
+      <Stack
+        onPress={handlePress}
+        opacity={disabled ? 0.5 : 1}
+        borderRadius="$btn"
+        overflow="hidden"
+        alignSelf={fullWidth ? 'stretch' : 'flex-start'}
+        width={fullWidth ? '100%' : undefined}
+        cursor="pointer"
+        animation="quick"
+        pressStyle={{ scale: 0.97 }}
+        hoverStyle={{ y: -2 }}
+        shadowColor={variant === 'income' ? '$income' : variant === 'primary' ? '$primary' : '$expense'}
+        shadowOpacity={0.4}
+        shadowRadius={14}
+        shadowOffset={{ width: 0, height: 8 }}
       >
-        {label}
-      </Text>
-    </ButtonFrame>
+        <LinearGradient
+          colors={grad}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ height, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 8, paddingHorizontal: 18 }}
+        >
+          {icon ? <Text fontSize={16}>{icon}</Text> : null}
+          <Text fontFamily="$body" fontSize="$4" fontWeight="700" color="#ffffff">
+            {label}
+          </Text>
+        </LinearGradient>
+      </Stack>
+    );
+  }
+
+  // Non-gradient variants: secondary (solid accent), outline, ghost
+  const bg = variant === 'secondary' ? '$accent' : variant === 'ghost' ? '$backgroundPress' : 'transparent';
+  const textColor = variant === 'secondary' ? '#ffffff' : '$primary';
+  return (
+    <Stack
+      onPress={handlePress}
+      opacity={disabled ? 0.5 : 1}
+      height={height}
+      borderRadius="$btn"
+      paddingHorizontal="$lg"
+      alignItems="center"
+      justifyContent="center"
+      alignSelf={fullWidth ? 'stretch' : 'flex-start'}
+      width={fullWidth ? '100%' : undefined}
+      backgroundColor={bg}
+      borderWidth={variant === 'outline' ? 1.5 : 0}
+      borderColor="$primary"
+      cursor="pointer"
+      animation="quick"
+      pressStyle={{ scale: 0.97 }}
+    >
+      <XStack alignItems="center" gap="$sm">
+        {icon ? <Text fontSize={16}>{icon}</Text> : null}
+        <Text fontFamily="$body" fontSize="$4" fontWeight="700" color={textColor}>
+          {label}
+        </Text>
+      </XStack>
+    </Stack>
   );
 }

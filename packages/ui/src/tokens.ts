@@ -1,53 +1,69 @@
 /**
- * Canonical design tokens (framework-agnostic). The Tamagui config in `tamagui.config.ts`
- * consumes these; nothing in the app should hardcode hex/spacing — import from here or use
- * the Tamagui `$token` shorthands. Source: .claude/design/design-tokens.md.
+ * Canonical design tokens — Antarious brand (from antarious-studio.html, "antarious" mood).
+ * Brand blue #27a7e1. Nothing in the app should hardcode hex — import from here or use Tamagui
+ * `$token` shorthands.
  */
 
 export const palette = {
   // brand
-  primary: '#0e7490',
-  primary2: '#22b8cf',
-  secondary: '#0891b2',
-  accent: '#155e75',
-  accent2: '#67e8f9',
+  primary: '#27a7e1',
+  primary2: '#6fc4ec',
+  accent: '#1f87b8',
+  accent2: '#a8dbf4',
   // surfaces
-  bg: '#ecfeff',
-  bg2: '#f0fdfa',
+  bg: '#eef8fd',
+  bg2: '#f3fbff',
   surface: '#ffffff',
-  chipBg: '#cffafe',
+  chipBg: '#d3edfa',
+  chipInk: '#1976a3',
   // text
-  textPrimary: '#083344',
-  textSecondary: '#5f8a96',
+  textPrimary: '#0f3a52',
+  textSecondary: '#6b94a8',
   textInverse: '#ffffff',
   // semantic
-  income: '#14b8a6',
-  incomeLight: '#ccfbf1',
-  expense: '#fb7185',
-  expenseLight: '#ffe4e6',
-  warning: '#22b8cf',
-  info: '#0891b2',
-  aiBg: '#def7fb',
-  // lines
-  border: '#a5f3fc',
-  borderLight: '#cffafe',
+  income: '#16b886',
+  incomeLight: '#d2f3e8',
+  expense: '#ff5a78',
+  expenseLight: '#ffe0e6',
+  warning: '#f59e0b',
+  info: '#1f87b8',
+  aiBg: '#e3f4fc',
+  aiAccent: '#1f87b8',
+  // lines + orbs
+  border: '#cfe9f7',
+  borderLight: '#e3f4fc',
+  orb1: '#a8dbf4',
+  orb2: '#c9e9f7',
+  // brand shades
+  brand: '#27a7e1',
+  brand100: '#d4ecf9',
+  brand300: '#86c8ec',
+  brand700: '#1c7099',
   // dark
-  darkBg: '#0d2d38',
-  darkSurface: '#142e3a',
-  darkText: '#ecfeff',
-  darkPrimary: '#22b8cf',
+  darkBg: '#0e1027',
+  darkSurface: '#1e1b3a',
+  darkText: '#ece9ff',
+  darkPrimary: '#6fc4ec',
   white: '#ffffff',
   black: '#000000',
 } as const;
 
-/** Per-tier accent colors (T0–T4). */
+/** Per-tier accent colors (Antarious-aligned). */
 export const tierColors = {
-  t0: '#5f8a96',
-  t1: '#22b8cf',
-  t2: '#0891b2',
-  t3: '#0e7490',
-  t4: '#155e75',
+  t0: '#6b94a8',
+  t1: '#27a7e1',
+  t2: '#1f87b8',
+  t3: '#1976a3',
+  t4: '#0f3a52',
 } as const;
+
+/** Hero gradient (diagonal 135deg) — used by HeroCard / primary buttons. */
+export const gradients = {
+  hero: ['#27a7e1', '#4fb8e8', '#8fd2f0'] as const,
+  income: ['#16b886', '#5ed8a8'] as const,
+  expense: ['#ff5a78', '#ff8fa3'] as const,
+  angle: 135,
+};
 
 export const space = {
   xs: 4,
@@ -82,7 +98,7 @@ export const fontSize = {
   xl4: 34,
 } as const;
 
-/** Breakpoints — the adaptive shell switches from bottom-tabs to sidebar at `lg` (900). */
+/** Breakpoints — adaptive shell switches to sidebar at `lg` (900). */
 export const breakpoints = {
   sm: 0,
   md: 640,
@@ -92,6 +108,6 @@ export const breakpoints = {
 
 export const motion = {
   duration: 340,
-  stagger: 50,
-  spring: { stiffness: 280, damping: 18, mass: 0.8 },
+  stagger: 55,
+  spring: { stiffness: 250, damping: 20, mass: 0.9 },
 } as const;

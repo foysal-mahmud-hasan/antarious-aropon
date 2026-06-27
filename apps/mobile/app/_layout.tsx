@@ -6,12 +6,13 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   useFonts,
-  NotoSansBengali_400Regular,
-  NotoSansBengali_500Medium,
-  NotoSansBengali_600SemiBold,
-  NotoSansBengali_700Bold,
-} from '@expo-google-fonts/noto-sans-bengali';
-import { UIProvider } from '@aropon/ui';
+  HindSiliguri_300Light,
+  HindSiliguri_400Regular,
+  HindSiliguri_500Medium,
+  HindSiliguri_600SemiBold,
+  HindSiliguri_700Bold,
+} from '@expo-google-fonts/hind-siliguri';
+import { ConfettiHost, UIProvider } from '@aropon/ui';
 import { queryClient } from '../lib/query';
 import { useAuth } from '../lib/auth';
 import { initObservability } from '../lib/observability';
@@ -20,10 +21,11 @@ initObservability();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
-    NotoSansBengali_400Regular,
-    NotoSansBengali_500Medium,
-    NotoSansBengali_600SemiBold,
-    NotoSansBengali_700Bold,
+    HindSiliguri_300Light,
+    HindSiliguri_400Regular,
+    HindSiliguri_500Medium,
+    HindSiliguri_600SemiBold,
+    HindSiliguri_700Bold,
   });
 
   // Rehydrate the persisted session once on boot.
@@ -40,6 +42,7 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <StatusBar style="dark" />
           <Stack screenOptions={{ headerShown: false }} />
+          <ConfettiHost />
         </QueryClientProvider>
       </UIProvider>
     </SafeAreaProvider>

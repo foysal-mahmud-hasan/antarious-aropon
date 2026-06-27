@@ -9,7 +9,7 @@ import {
   Caption,
   Card,
   Chip,
-  Heading,
+  HeroCard,
   Input,
   MetricCard,
   SectionHeader,
@@ -83,10 +83,15 @@ export default function FinanceScreen() {
     <YStack gap="$md">
       <SectionHeader title={t('nav.finance')} />
 
-      <Card>
-        <Caption>{t('finance.balance')}</Caption>
-        <Heading fontSize="$8">{formatBDT(balanceQ.data?.balancePoisha ?? 0, locale)}</Heading>
-      </Card>
+      <HeroCard
+        label={`💚 ${t('finance.balance')}`}
+        value={formatBDT(balanceQ.data?.balancePoisha ?? 0, locale)}
+        sublabel="এই মাসের সারাংশ"
+        stats={[
+          { label: t('finance.income'), value: formatBDT(summaryQ.data?.incomePoisha ?? 0, locale) },
+          { label: t('finance.profit'), value: formatBDT(summaryQ.data?.profitPoisha ?? 0, locale) },
+        ]}
+      />
 
       <XStack gap="$md" flexWrap="wrap">
         <MetricCard label={t('finance.income')} value={formatBDT(summaryQ.data?.incomePoisha ?? 0, locale)} tone="income" />

@@ -1,0 +1,10 @@
+import { parseServerEnv } from '@aropon/config';
+import { appRouter } from '../src/router';
+import { createDb } from '../src/db';
+const env = parseServerEnv(process.env);
+const db = createDb(env.DATABASE_URL);
+const caller = appRouter.createCaller({ db, authSecret: env.AUTH_JWT_SECRET, user: null, org: null });
+const tier = (process.argv[2] as 't0' | 't1') ?? 't1';
+const r = await caller.auth.demoLogin({ tier });
+console.log(JSON.stringify({ token: r.token, orgId: r.orgs[0]!.orgId, userId: r.user.id }));
+process.exit(0);

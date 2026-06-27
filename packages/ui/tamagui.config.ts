@@ -1,5 +1,6 @@
+import { createAnimations } from '@tamagui/animations-react-native';
 import { createFont, createTamagui, createTokens } from '@tamagui/core';
-import { palette, radius as rad, space as sp } from './src/tokens';
+import { palette, radius as rad } from './src/tokens';
 
 const size = {
   0: 0,
@@ -14,7 +15,6 @@ const size = {
   xl4: 44,
   true: 14,
 };
-
 const space = { ...size, true: 14 };
 
 const tokens = createTokens({
@@ -25,19 +25,18 @@ const tokens = createTokens({
   zIndex: { 0: 0, 1: 100, 2: 200, 3: 300 },
 });
 
-// Bengali-first font. Real weights (Noto Sans Bengali ships 400–800), unlike the reference's
-// single-weight TiroBangla. The app loads these via @expo-google-fonts/noto-sans-bengali; the
-// `face` map points each weight at the loaded font name (web + native).
+// Bengali-first font: Hind Siliguri (clean), loaded via @expo-google-fonts/hind-siliguri.
 const body = createFont({
-  family: 'NotoSansBengali_400Regular, system-ui, sans-serif',
+  family: 'HindSiliguri_400Regular, system-ui, sans-serif',
   size: { 1: 11, 2: 13, 3: 15, 4: 16, 5: 18, 6: 20, 7: 24, 8: 28, 9: 34, true: 15 },
-  lineHeight: { 1: 15, 2: 18, 3: 21, 4: 22, 5: 26, 6: 28, 7: 32, 8: 38, 9: 46, true: 21 },
+  lineHeight: { 1: 16, 2: 19, 3: 22, 4: 23, 5: 27, 6: 29, 7: 33, 8: 38, 9: 46, true: 22 },
   weight: { 4: '400', 5: '500', 6: '600', 7: '700' },
   face: {
-    400: { normal: 'NotoSansBengali_400Regular' },
-    500: { normal: 'NotoSansBengali_500Medium' },
-    600: { normal: 'NotoSansBengali_600SemiBold' },
-    700: { normal: 'NotoSansBengali_700Bold' },
+    300: { normal: 'HindSiliguri_300Light' },
+    400: { normal: 'HindSiliguri_400Regular' },
+    500: { normal: 'HindSiliguri_500Medium' },
+    600: { normal: 'HindSiliguri_600SemiBold' },
+    700: { normal: 'HindSiliguri_700Bold' },
   },
 });
 
@@ -51,34 +50,55 @@ const light = {
   borderColor: palette.border,
   borderColorHover: palette.primary,
   primary: palette.primary,
-  secondary: palette.secondary,
+  primary2: palette.primary2,
+  secondary: palette.accent,
+  accent: palette.accent,
   income: palette.income,
   expense: palette.expense,
-  shadowColor: palette.textPrimary,
+  warning: palette.warning,
+  chip: palette.chipBg,
+  chipInk: palette.chipInk,
+  ai: palette.aiAccent,
+  aiBg: palette.aiBg,
+  shadowColor: '#0f3a52',
 };
 
 const dark = {
   background: palette.darkBg,
   backgroundStrong: palette.darkSurface,
-  backgroundPress: palette.darkSurface,
+  backgroundPress: '#2a2750',
   color: palette.darkText,
-  colorSecondary: palette.textSecondary,
+  colorSecondary: '#9890c4',
   colorInverse: palette.textPrimary,
-  borderColor: palette.darkSurface,
+  borderColor: '#2a2750',
   borderColorHover: palette.darkPrimary,
   primary: palette.darkPrimary,
-  secondary: palette.primary2,
+  primary2: palette.primary2,
+  secondary: palette.accent2,
+  accent: palette.accent2,
   income: palette.income,
   expense: palette.expense,
-  shadowColor: palette.black,
+  warning: palette.warning,
+  chip: '#2a2750',
+  chipInk: palette.primary2,
+  ai: palette.darkPrimary,
+  aiBg: '#221f44',
+  shadowColor: '#000000',
 };
+
+const animations = createAnimations({
+  quick: { type: 'spring', damping: 20, stiffness: 250 },
+  bouncy: { type: 'spring', damping: 12, stiffness: 200 },
+  slow: { type: 'spring', damping: 18, stiffness: 120 },
+});
 
 export const config = createTamagui({
   tokens,
   themes: { light, dark },
   defaultFont: 'body',
   fonts: { body, heading: body },
-  // Compile to real CSS media queries on web — this is what makes the adaptive shell responsive.
+  animations,
+  // Compile to real CSS media queries on web — powers the adaptive shell.
   media: {
     sm: { maxWidth: 639 },
     md: { minWidth: 640 },
