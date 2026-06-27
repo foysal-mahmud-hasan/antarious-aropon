@@ -83,6 +83,19 @@ async function main() {
   const orders = await t1.orders.list({ orgId: cur.orgId });
   console.log('10. orders.list →', orders.length, 'first:', orders[0]?.customerName, orders[0]?.status, orders[0]?.totalPoisha);
 
+  // Inbox: seed demo conversations, auto-reply, reply, escalate.
+  const seed = await t1.inbox.seedDemo({ orgId: cur.orgId });
+  console.log('11. inbox.seedDemo →', seed);
+  const convos = await t1.inbox.list({ orgId: cur.orgId, status: 'all' });
+  console.log('12. inbox.list →', convos.length, 'first:', convos[0]?.customerName, convos[0]?.channel);
+  const first = convos[0]!;
+  const ar = await t1.inbox.autoReply({ orgId: cur.orgId, conversationId: first.id });
+  console.log('13. inbox.autoReply →', ar.body);
+  await t1.inbox.reply({ orgId: cur.orgId, conversationId: first.id, body: 'দাম ১২০০ টাকা।' });
+  await t1.inbox.escalate({ orgId: cur.orgId, conversationId: first.id });
+  const thread = await t1.inbox.thread({ orgId: cur.orgId, conversationId: first.id });
+  console.log('14. inbox.thread →', thread.status, thread.messages.length, 'messages');
+
   console.log('\n✅ smoke passed');
   process.exit(0);
 }

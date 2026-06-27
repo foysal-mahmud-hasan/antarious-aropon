@@ -4,6 +4,7 @@ import { authRouter } from './routers/auth';
 import { orgRouter } from './routers/org';
 import { financeRouter } from './routers/finance';
 import { ordersRouter } from './routers/orders';
+import { inboxRouter } from './routers/inbox';
 import { billingRouter } from './routers/billing';
 
 export const appRouter = router({
@@ -12,6 +13,7 @@ export const appRouter = router({
   org: orgRouter,
   finance: financeRouter,
   orders: ordersRouter,
+  inbox: inboxRouter,
   billing: billingRouter,
 });
 
