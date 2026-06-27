@@ -28,24 +28,31 @@ function grant(
   return next;
 }
 
+/** The boolean keys currently enabled on a map (for cumulative inheritance). */
+function booleanKeysOf(ent: Entitlements): BooleanEntitlementKey[] {
+  return BOOLEAN_ENTITLEMENT_KEYS.filter((k) => ent[k]);
+}
+
 // --- Tiers are CUMULATIVE: each tier inherits the lower tier and adds capabilities. ---
+//
+// ON HOLD / NOT YET ASSIGNED (keys exist but stay false everywhere until built):
+//   brand.*  (Brand Studio — a SEPARATE feature list, not part of T0)
+//   finance.insights, finance.performance_suggestions, ai.lead_closing  (AI agent — deferred)
 
-// T0 — Offline Mode: basic bookkeeping + Brand Studio (AI logo/caption/copy). Local-only.
-const T0: Entitlements = grant(
-  baseEntitlements(),
-  ['finance.bookkeeping', 'brand.ai_logo', 'brand.ai_caption', 'brand.copywriting'],
-  { products: 50, members: 1 },
-);
+// T0 — Offline Mode: basic bookkeeping ONLY. Local-only (no cloud sync). 200 BDT.
+const T0: Entitlements = grant(baseEntitlements(), ['finance.bookkeeping'], {
+  products: 50,
+  members: 1,
+});
 
-// T1 — Social Commerce: FB/IG inbox, auto-reply + escalation, order confirmation,
-// revenue/expense/profit + AI finance insights, daily/weekly calendar, cloud sync.
+// T1 — Social Commerce: FB/IG + inbox (messages/comments), auto-reply + manual escalation,
+// order confirmation, revenue/expense/profit, daily/weekly calendar, cloud sync.
+// EXCLUDES finance.insights + finance.performance_suggestions (on hold).
 const T1: Entitlements = grant(
   { ...T0 },
   [
     ...booleanKeysOf(T0),
     'finance.revenue_expense_profit',
-    'finance.insights',
-    'finance.performance_suggestions',
     'social.facebook',
     'social.instagram',
     'social.inbox',
@@ -86,23 +93,12 @@ const T3: Entitlements = grant(
   { products: 10000, members: 15 },
 );
 
-// T4 — Business Intelligence: dashboards, summaries, analytics, AI lead-closing. Unlimited.
+// T4 — Business Intelligence: dashboards, summaries, analytics. (ai.lead_closing is on hold.)
 const T4: Entitlements = grant(
   { ...T3 },
-  [
-    ...booleanKeysOf(T3),
-    'reports.dashboard',
-    'reports.summaries',
-    'analytics.tracking',
-    'ai.lead_closing',
-  ],
+  [...booleanKeysOf(T3), 'reports.dashboard', 'reports.summaries', 'analytics.tracking'],
   { products: UNLIMITED, members: UNLIMITED },
 );
-
-/** Helper: the boolean keys currently enabled on an entitlement map (for cumulative inheritance). */
-function booleanKeysOf(ent: Entitlements): BooleanEntitlementKey[] {
-  return BOOLEAN_ENTITLEMENT_KEYS.filter((k) => ent[k]);
-}
 
 export const TIER_ENTITLEMENTS: Record<Tier, Entitlements> = {
   t0: T0,

@@ -6,7 +6,7 @@
 
 | Tier | Name | Who it's for | Headline value |
 |---|---|---|---|
-| **T0** | Offline Mode | Offline & micro sellers | Fully-offline bookkeeping + Brand Studio AI (logo/caption/copy), 200 BDT |
+| **T0** | Offline Mode | Offline & micro sellers | Fully-offline **basic bookkeeping only**, 200 BDT (Brand Studio is a separate module, on hold) |
 | **T1** | Social Commerce | Shops selling on FB/IG | FB/IG inbox, auto-replies + escalation, order confirmation, revenue/expense/profit + AI insights, calendar |
 | **T2** | Commerce | Growing online sellers | Website integration, inventory, courier |
 | **T3** | CRM & Growth | Multi-staff businesses | Lead capture, customer DB, scoring, AI upsell/cross-sell |
@@ -17,10 +17,12 @@
 ## 2. Entitlement map
 
 > **Authoritative source = code:** `packages/core/src/entitlements/tiers.ts` (with keys in
-> `keys.ts`). It is **brief-aligned and cumulative** — T0 includes Brand Studio AI
-> (`brand.ai_logo`/`brand.ai_caption`/`brand.copywriting`) and basic bookkeeping; each higher tier
-> inherits the lower tier and adds capabilities (enforced by a test in `entitlements.test.ts`).
-> The snippet below is **illustrative**; if it ever disagrees with the code, the code wins.
+> `keys.ts`). It is **brief-aligned and cumulative** — **T0 = basic bookkeeping only** (Brand
+> Studio is a SEPARATE module, not T0); each higher tier inherits the lower tier and adds
+> capabilities (enforced by a test in `entitlements.test.ts`). **On hold (false on every tier
+> until built):** `brand.*`, `finance.insights`, `finance.performance_suggestions`,
+> `ai.lead_closing`. The snippet below is **illustrative**; if it ever disagrees with the code,
+> the code wins.
 
 Booleans = feature on/off; numbers = limits (`-1` = unlimited).
 

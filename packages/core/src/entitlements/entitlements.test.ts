@@ -3,28 +3,43 @@ import { TIER_ENTITLEMENTS } from './tiers';
 import { effectiveTier, hasEntitlement, resolveEntitlements, withinLimit } from './resolve';
 
 describe('tier entitlement map (brief-aligned)', () => {
-  it('T0 includes Brand Studio AI and basic bookkeeping but is local-only', () => {
+  it('T0 is bookkeeping ONLY — local, no Brand Studio (separate), no social', () => {
     const t0 = TIER_ENTITLEMENTS.t0;
-    expect(t0['brand.ai_logo']).toBe(true);
-    expect(t0['brand.ai_caption']).toBe(true);
-    expect(t0['brand.copywriting']).toBe(true);
     expect(t0['finance.bookkeeping']).toBe(true);
     expect(t0['sync.cloud']).toBe(false);
+    // Brand Studio is a SEPARATE feature list, not part of T0:
+    expect(t0['brand.ai_logo']).toBe(false);
+    expect(t0['brand.ai_caption']).toBe(false);
+    expect(t0['brand.copywriting']).toBe(false);
     expect(t0['social.inbox']).toBe(false);
   });
 
-  it('T1 adds social commerce + cloud sync and KEEPS T0 Brand Studio (cumulative)', () => {
+  it('T1 adds social commerce + cloud sync, EXCLUDES the on-hold AI insights', () => {
     const t1 = TIER_ENTITLEMENTS.t1;
+    expect(t1['social.facebook']).toBe(true);
+    expect(t1['social.instagram']).toBe(true);
     expect(t1['social.inbox']).toBe(true);
     expect(t1['social.auto_reply']).toBe(true);
+    expect(t1['social.manual_escalation']).toBe(true);
     expect(t1['orders.confirmation']).toBe(true);
-    expect(t1['finance.insights']).toBe(true);
+    expect(t1['finance.revenue_expense_profit']).toBe(true);
+    expect(t1['calendar.daily_weekly']).toBe(true);
     expect(t1['sync.cloud']).toBe(true);
-    // cumulative: still has T0 brand studio
-    expect(t1['brand.ai_caption']).toBe(true);
-    // not yet: commerce/CRM/BI
+    // on hold:
+    expect(t1['finance.insights']).toBe(false);
+    expect(t1['finance.performance_suggestions']).toBe(false);
+    // not yet: commerce
     expect(t1['inventory.management']).toBe(false);
-    expect(t1['reports.dashboard']).toBe(false);
+  });
+
+  it('on-hold AI features stay off across all tiers until built', () => {
+    for (const tier of ['t0', 't1', 't2', 't3', 't4'] as const) {
+      const e = TIER_ENTITLEMENTS[tier];
+      expect(e['brand.ai_logo']).toBe(false);
+      expect(e['finance.insights']).toBe(false);
+      expect(e['finance.performance_suggestions']).toBe(false);
+      expect(e['ai.lead_closing']).toBe(false);
+    }
   });
 
   it('tiers are strictly cumulative for boolean capabilities', () => {
@@ -62,15 +77,15 @@ describe('effective tier by billing status', () => {
 
 describe('resolveEntitlements', () => {
   it('applies effective tier then overrides', () => {
-    const ent = resolveEntitlements('t0', 'active', { 'brand.ai_logo': false });
-    expect(hasEntitlement(ent, 'brand.ai_logo')).toBe(false);
+    const ent = resolveEntitlements('t1', 'active', { 'social.inbox': false });
+    expect(hasEntitlement(ent, 'social.inbox')).toBe(false);
     expect(hasEntitlement(ent, 'finance.bookkeeping')).toBe(true);
   });
 
-  it('a cancelled T1 sub sees only t0 features', () => {
+  it('a cancelled T1 sub sees only t0 (bookkeeping, no social)', () => {
     const ent = resolveEntitlements('t1', 'cancelled');
     expect(hasEntitlement(ent, 'social.inbox')).toBe(false);
-    expect(hasEntitlement(ent, 'brand.ai_caption')).toBe(true);
+    expect(hasEntitlement(ent, 'finance.bookkeeping')).toBe(true);
   });
 });
 

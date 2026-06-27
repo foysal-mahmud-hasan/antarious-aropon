@@ -37,7 +37,7 @@ export default function SignIn() {
   }
 
   return (
-    <YStack flex={1} justifyContent="center" padding="$lg" backgroundColor="$background" gap="$lg">
+    <YStack gap="$lg">
       <YStack gap="$xs">
         <Heading fontSize="$9">{t('common.appName')}</Heading>
         <Caption>{t('auth.phoneLabel')}</Caption>
