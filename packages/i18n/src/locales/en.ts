@@ -11,6 +11,7 @@ export const en: TranslationResources = {
   nav: {
     finance: 'Finance',
     inbox: 'Inbox',
+    calendar: 'Calendar',
     brandStudio: 'Brand Studio',
     settings: 'Settings',
   },

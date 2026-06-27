@@ -1,6 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import { Slot, useRouter, usePathname } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { AdaptiveShell, Heading, type NavItem } from '@aropon/ui';
+import { AdaptiveShell, Heading, palette, type NavItem } from '@aropon/ui';
 
 export default function AppLayout() {
   const router = useRouter();
@@ -8,10 +9,10 @@ export default function AppLayout() {
   const { t } = useTranslation();
 
   const navItems: NavItem[] = [
-    { key: '/finance', label: t('nav.finance') },
-    { key: '/inbox', label: t('nav.inbox') },
-    { key: '/brand-studio', label: t('nav.brandStudio') },
-    { key: '/settings', label: t('nav.settings') },
+    { key: '/finance', label: t('nav.finance'), icon: icon('wallet-outline') },
+    { key: '/inbox', label: t('nav.inbox'), icon: icon('chatbubbles-outline') },
+    { key: '/calendar', label: t('nav.calendar'), icon: icon('calendar-outline') },
+    { key: '/settings', label: t('nav.settings'), icon: icon('settings-outline') },
   ];
 
   const active = navItems.find((n) => pathname.startsWith(n.key))?.key ?? '/finance';
@@ -30,4 +31,8 @@ export default function AppLayout() {
       <Slot />
     </AdaptiveShell>
   );
+}
+
+function icon(name: keyof typeof Ionicons.glyphMap) {
+  return <Ionicons name={name} size={22} color={palette.textSecondary} />;
 }

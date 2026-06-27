@@ -25,13 +25,20 @@ const tokens = createTokens({
   zIndex: { 0: 0, 1: 100, 2: 200, 3: 300 },
 });
 
-// Bengali-first font stack. Real weights (Noto Sans Bengali ships 400–800), unlike the reference.
+// Bengali-first font. Real weights (Noto Sans Bengali ships 400–800), unlike the reference's
+// single-weight TiroBangla. The app loads these via @expo-google-fonts/noto-sans-bengali; the
+// `face` map points each weight at the loaded font name (web + native).
 const body = createFont({
-  family: 'Noto Sans Bengali, Be Vietnam Pro, system-ui, sans-serif',
+  family: 'NotoSansBengali_400Regular, system-ui, sans-serif',
   size: { 1: 11, 2: 13, 3: 15, 4: 16, 5: 18, 6: 20, 7: 24, 8: 28, 9: 34, true: 15 },
   lineHeight: { 1: 15, 2: 18, 3: 21, 4: 22, 5: 26, 6: 28, 7: 32, 8: 38, 9: 46, true: 21 },
   weight: { 4: '400', 5: '500', 6: '600', 7: '700' },
-  face: {},
+  face: {
+    400: { normal: 'NotoSansBengali_400Regular' },
+    500: { normal: 'NotoSansBengali_500Medium' },
+    600: { normal: 'NotoSansBengali_600SemiBold' },
+    700: { normal: 'NotoSansBengali_700Bold' },
+  },
 });
 
 const light = {

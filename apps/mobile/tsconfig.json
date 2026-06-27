@@ -7,8 +7,15 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["app", "lib", "*.ts", "*.tsx", "expo-env.d.ts"]
+  "include": [
+    "app",
+    "lib",
+    "*.ts",
+    "*.tsx"
+  ]
 }

@@ -2,15 +2,15 @@ import { useTranslation } from 'react-i18next';
 import { hasEntitlement, resolveEntitlements } from '@aropon/core';
 import { Button, EmptyState, SectionHeader, TierGate, YStack } from '@aropon/ui';
 
-export default function InboxScreen() {
+export default function CalendarScreen() {
   const { t } = useTranslation();
-  const ent = resolveEntitlements('t0', 'active'); // demo T0 → inbox is a T1 feature → locked
+  const ent = resolveEntitlements('t0', 'active'); // demo T0 → calendar is a T1 feature → locked
 
   return (
     <YStack flex={1} gap="$md">
-      <SectionHeader title={t('nav.inbox')} />
+      <SectionHeader title={t('nav.calendar')} />
       <TierGate
-        allowed={hasEntitlement(ent, 'social.inbox')}
+        allowed={hasEntitlement(ent, 'calendar.daily_weekly')}
         fallback={
           <EmptyState
             title={t('gate.locked')}
@@ -19,8 +19,8 @@ export default function InboxScreen() {
           />
         }
       >
-        {/* Unified FB/IG inbox lands in M2. */}
-        <EmptyState title={t('nav.inbox')} subtitle="—" />
+        {/* Daily/weekly calendar lands in M2. */}
+        <EmptyState title={t('nav.calendar')} subtitle="—" />
       </TierGate>
     </YStack>
   );

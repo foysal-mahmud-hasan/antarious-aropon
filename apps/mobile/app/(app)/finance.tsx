@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { hasEntitlement, resolveEntitlements, summarize } from '@aropon/core';
 import { formatBDT } from '@aropon/i18n';
-import { Body, Caption, Card, Heading, TierGate, XStack, YStack } from '@aropon/ui';
+import { Caption, MetricCard, SectionHeader, TierGate, XStack, YStack } from '@aropon/ui';
 import { useAuth } from '../../lib/auth';
 
 // Demo data — replaced by the local SQLite ledger in M1.
@@ -19,49 +19,19 @@ export default function FinanceScreen() {
   const sum = summarize(DEMO_LEDGER);
 
   return (
-    <YStack gap="$lg">
-      <Heading>{t('nav.finance')}</Heading>
-
+    <YStack gap="$md">
+      <SectionHeader title={t('nav.finance')} />
       <TierGate
         allowed={hasEntitlement(ent, 'finance.bookkeeping')}
         fallback={<Caption>{t('gate.locked')}</Caption>}
       >
         <XStack gap="$md" flexWrap="wrap">
-          <Metric label={t('finance.income')} value={formatBDT(sum.incomePoisha, locale)} tone="income" />
-          <Metric label={t('finance.expense')} value={formatBDT(sum.expensePoisha, locale)} tone="expense" />
-          <Metric label={t('finance.profit')} value={formatBDT(sum.profitPoisha, locale)} tone="default" />
+          <MetricCard label={t('finance.income')} value={formatBDT(sum.incomePoisha, locale)} tone="income" />
+          <MetricCard label={t('finance.expense')} value={formatBDT(sum.expensePoisha, locale)} tone="expense" />
+          <MetricCard label={t('finance.profit')} value={formatBDT(sum.profitPoisha, locale)} tone="default" />
         </XStack>
       </TierGate>
-
-      <Card>
-        <Caption>finance.insights (T1+)</Caption>
-        <TierGate
-          allowed={hasEntitlement(ent, 'finance.insights')}
-          fallback={<Body>{t('gate.locked')}</Body>}
-        >
-          <Body>AI insight…</Body>
-        </TierGate>
-      </Card>
+      {/* NOTE: AI Finance Insights / Business Performance Suggestions are ON HOLD (deferred). */}
     </YStack>
-  );
-}
-
-function Metric({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: string;
-  tone: 'income' | 'expense' | 'default';
-}) {
-  const color = tone === 'income' ? '$income' : tone === 'expense' ? '$expense' : '$color';
-  return (
-    <Card flex={1} minWidth={140}>
-      <Caption>{label}</Caption>
-      <Heading color={color} fontSize="$7">
-        {value}
-      </Heading>
-    </Card>
   );
 }

@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Body, Button, Caption, Card, Heading, YStack } from '@aropon/ui';
-import { palette, radius, space } from '@aropon/ui';
+import { Button, Caption, Card, Heading, Input, YStack } from '@aropon/ui';
 import { api } from '../../lib/trpc';
 import { useAuth } from '../../lib/auth';
 
@@ -47,45 +45,25 @@ export default function SignIn() {
       <Card>
         {stage === 'phone' ? (
           <YStack gap="$md">
-            <Body>{t('auth.phoneLabel')}</Body>
-            <TextInput
+            <Input
+              label={t('auth.phoneLabel')}
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
               autoFocus
-              style={{
-                borderWidth: 1.5,
-                borderColor: palette.border,
-                backgroundColor: palette.chipBg,
-                borderRadius: radius.md,
-                minHeight: 48,
-                paddingHorizontal: space.md,
-                fontSize: 16,
-                color: palette.textPrimary,
-              }}
             />
             <Button label={t('auth.requestOtp')} disabled={busy} onPress={requestOtp} />
           </YStack>
         ) : (
           <YStack gap="$md">
-            <Body>{t('auth.otpLabel')}</Body>
-            <TextInput
+            <Input
+              label={t('auth.otpLabel')}
               value={token}
               onChangeText={setToken}
               keyboardType="number-pad"
               maxLength={6}
               autoFocus
-              style={{
-                borderWidth: 1.5,
-                borderColor: palette.border,
-                backgroundColor: palette.chipBg,
-                borderRadius: radius.md,
-                minHeight: 48,
-                paddingHorizontal: space.md,
-                fontSize: 18,
-                letterSpacing: 6,
-                color: palette.textPrimary,
-              }}
+              style={{ letterSpacing: 6, fontSize: 18 }}
             />
             <Button label={t('auth.verify')} variant="primary" disabled={busy} onPress={verify} />
           </YStack>
