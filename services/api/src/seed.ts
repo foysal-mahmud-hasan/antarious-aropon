@@ -100,15 +100,21 @@ async function seedInbox(db: Db, orgId: string) {
   }
 }
 
+/** Seed sample data into a SINGLE given org, scaled to its tier. Reused by demoLogin + runSeed. */
+export async function seedOrgData(db: Db, orgId: string, tier: Tier, createdBy: string) {
+  await seedFinance(db, orgId, createdBy);
+  if (tier !== 't0') {
+    await seedOrders(db, orgId);
+    await seedInbox(db, orgId);
+  }
+}
+
 export async function runSeed(db: Db) {
   const t0 = await ensureAccount(db, '+8801700000000', 'ডেমো দোকান (T0)', 't0');
-  if (t0.created) await seedFinance(db, t0.orgId, t0.userId);
+  if (t0.created) await seedOrgData(db, t0.orgId, 't0', t0.userId);
 
   const t1 = await ensureAccount(db, '+8801700000001', 'ডেমো শপ (T1)', 't1');
-  if (t1.created) {
-    await seedFinance(db, t1.orgId, t1.userId);
-    await seedOrders(db, t1.orgId);
-    await seedInbox(db, t1.orgId);
-  }
+  if (t1.created) await seedOrgData(db, t1.orgId, 't1', t1.userId);
+
   return { t0: t0.created ? 'created' : 'exists', t1: t1.created ? 'created' : 'exists' };
 }
