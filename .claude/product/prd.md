@@ -6,7 +6,7 @@
 
 ## 1. Product Vision
 
-**Aropon** (অরপন) is a mobile-first SaaS **"business companion"** for Bangladeshi MSMEs (Micro, Small, and Medium Enterprises). It is delivered as **one single Expo (React Native) app** that hosts **all five subscription tiers**, with features unlocked by server-enforced **entitlements** based on the business's active subscription.
+**Aropon** (আরোপন) is a mobile-first SaaS **"business companion"** for Bangladeshi MSMEs (Micro, Small, and Medium Enterprises). It is delivered as **one single Expo (React Native) app** that hosts **all five subscription tiers**, with features unlocked by server-enforced **entitlements** based on the business's active subscription.
 
 The vision: give a Bangladeshi small-business owner — who runs their shop primarily from a phone, sells largely through Facebook and Instagram, and thinks in Bengali and Bangladeshi Taka (৳/BDT) — a single app that grows with them. They start with offline bookkeeping and AI branding (Tier 0), then layer on social-commerce inbox + order management (Tier 1), then a website + inventory + courier (Tier 2), then CRM + growth automation (Tier 3), then full business intelligence (Tier 4). The same app, the same login, the same data — just more capability as they pay more.
 

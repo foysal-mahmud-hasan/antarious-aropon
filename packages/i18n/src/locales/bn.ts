@@ -1,5 +1,5 @@
 export const bn = {
-  common: { appName: 'অরপন', save: 'সংরক্ষণ', cancel: 'বাতিল', loading: 'লোড হচ্ছে…' },
+  common: { appName: 'আরোপন', save: 'সংরক্ষণ', cancel: 'বাতিল', loading: 'লোড হচ্ছে…' },
   auth: {
     phoneLabel: 'মোবাইল নম্বর',
     requestOtp: 'কোড পাঠান',

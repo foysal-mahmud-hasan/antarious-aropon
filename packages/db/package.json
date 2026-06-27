@@ -11,12 +11,17 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "echo \"(eslint configured at M0 CI step)\"",
-    "test": "echo \"(no tests)\""
+    "test": "echo \"(no tests)\"",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "drizzle-orm": "^0.36.4"
   },
   "devDependencies": {
+    "drizzle-kit": "^0.28.1",
+    "postgres": "^3.4.5",
     "typescript": "^5.6.3"
   }
 }

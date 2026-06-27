@@ -20,9 +20,12 @@ export const serverEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(8787),
   DATABASE_URL: z.string().url(),
-  SUPABASE_URL: z.string().url(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
-  SUPABASE_JWT_SECRET: z.string().min(1),
+  // Local-build auth (own JWT + dev OTP). Swappable for Supabase Auth later.
+  AUTH_JWT_SECRET: z.string().min(1).default('dev-secret-change-me-in-prod'),
+  // Supabase is optional for now (local Postgres build); required once we migrate to it.
+  SUPABASE_URL: z.string().url().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+  SUPABASE_JWT_SECRET: z.string().min(1).optional(),
   POWERSYNC_URL: z.string().url().optional(),
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
   INNGEST_EVENT_KEY: z.string().optional(),

@@ -2,6 +2,7 @@ import { and, eq } from 'drizzle-orm';
 import { schema } from '@aropon/db';
 import { resolveEntitlements, type Entitlements } from '@aropon/core';
 import type { Role, SubscriptionStatus, Tier } from '@aropon/validators';
+import { verifySession } from './auth';
 import type { Db } from './db';
 
 export interface AuthUser {
@@ -19,20 +20,28 @@ export interface OrgContext {
 
 export interface Context {
   db: Db;
+  authSecret: string;
   user: AuthUser | null;
-  /** Active org for this request (from the `x-org-id` header), resolved + entitlement-loaded. */
+  /** Active org for this request (from `x-org-id` or the user's first org), entitlement-loaded. */
   org: OrgContext | null;
 }
 
-/**
- * Verify the Supabase access token and return the user.
- * TODO(M0): verify the JWT signature with SUPABASE_JWT_SECRET (jose) and map `sub`→user id.
- * Stubbed shape kept stable so routers/middleware are final.
- */
-export async function getUserFromAuthHeader(authorization?: string): Promise<AuthUser | null> {
+/** Verify the JWT session token from the Authorization header. */
+export async function getUserFromAuthHeader(
+  secret: string,
+  authorization?: string,
+): Promise<AuthUser | null> {
   if (!authorization?.startsWith('Bearer ')) return null;
-  // Placeholder until JWT verification is wired; never trust this in production.
-  return null;
+  const session = await verifySession(secret, authorization.slice(7));
+  return session ? { id: session.sub, phone: session.phone } : null;
+}
+
+/** The user's first org id (used to default the active org when no header is sent). */
+export async function firstOrgIdFor(db: Db, userId: string): Promise<string | null> {
+  const m = await db.query.memberships.findFirst({
+    where: eq(schema.memberships.userId, userId),
+  });
+  return m?.orgId ?? null;
 }
 
 /** Load the caller's membership + subscription for an org and resolve effective entitlements. */
