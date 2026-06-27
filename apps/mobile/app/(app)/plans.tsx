@@ -8,6 +8,7 @@ import {
   SectionHeader,
   StatusPill,
   Text,
+  useMedia,
   XStack,
   YStack,
 } from '@aropon/ui';
@@ -29,12 +30,16 @@ export default function PlansScreen() {
     onSuccess: () => void qc.invalidateQueries(),
   });
 
+  const media = useMedia();
+  const wide = media.lg; // desktop → grid of cards side-by-side
+
   return (
     <YStack gap="$md">
       <SectionHeader title="প্যাকেজ" />
       <Caption>আপনি এখন যা পাচ্ছেন, এবং আপগ্রেড করলে যা যোগ হবে</Caption>
 
-      {PLANS.map((p) => {
+      <XStack flexWrap="wrap" gap="$md" justifyContent="space-between">
+        {PLANS.map((p) => {
         const idx = tierIndex(p.id);
         const isCurrent = p.id === current;
         const isHigher = idx > curIdx;
@@ -49,6 +54,7 @@ export default function PlansScreen() {
           <Card
             key={p.id}
             gap="$sm"
+            width={wide && !isCurrent ? '48.5%' : '100%'}
             borderWidth={isCurrent ? 2 : 0}
             borderColor="$primary"
             opacity={p.live ? 1 : 0.85}
@@ -91,7 +97,8 @@ export default function PlansScreen() {
             {!p.live ? <Button label="শীঘ্রই আসছে" variant="ghost" disabled onPress={() => {}} /> : null}
           </Card>
         );
-      })}
+        })}
+      </XStack>
 
       <Button label="চালিয়ে যান →" variant="outline" onPress={() => router.replace('/finance')} />
     </YStack>
