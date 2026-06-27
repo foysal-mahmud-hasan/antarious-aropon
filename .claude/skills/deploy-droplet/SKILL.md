@@ -41,7 +41,7 @@ This builds the API bundle + web export locally, rsyncs `server.mjs` + `migratio
 `/opt/aropon` and the web to `/var/www/aropon`, then `systemctl restart aropon-api`. The API
 migrates + seeds on start. Verify: open the URL; `curl http://<ip>/health` → `{"ok":true}`.
 
-Report back the URL + demo logins: `+8801000000000` (T0), `+8801000000001` (T1); OTP shows on
+Report back the URL + demo logins: `+8801700000000` (T0), `+8801700000001` (T1); OTP shows on
 screen in test mode; tier is switchable in Settings.
 
 ## HTTPS

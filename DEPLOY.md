@@ -65,8 +65,8 @@ appears on screen (test mode), then verify.
 
 | Account | Phone | Tier |
 |---|---|---|
-| Demo shop (bookkeeping only) | `+8801000000000` | T0 |
-| Demo shop (social commerce) | `+8801000000001` | T1 |
+| Demo shop (bookkeeping only) | `+8801700000000` | T0 |
+| Demo shop (social commerce) | `+8801700000001` | T1 |
 
 Testers can also sign up with their own phone, and switch **T0 ↔ T1** in **Settings → প্যাকেজ (টেস্ট)**.
 

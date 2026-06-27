@@ -1,15 +1,19 @@
 import { randomUUID } from 'node:crypto';
 import { eq } from 'drizzle-orm';
 import { schema } from '@aropon/db';
+import { bdPhoneSchema } from '@aropon/validators';
 import type { Db } from './db';
 
 /**
  * Idempotent demo seed. Two ready accounts so testers log in (dev OTP) and immediately see a
- * populated app: +8801000000000 (T0, bookkeeping only) and +8801000000001 (T1, social commerce).
+ * populated app: +8801700000000 (T0, bookkeeping only) and +8801700000001 (T1, social commerce).
  */
 type Tier = 't0' | 't1' | 't2' | 't3' | 't4';
 
 async function ensureAccount(db: Db, phone: string, orgName: string, tier: Tier) {
+  // Fail loudly if a demo number isn't a valid BD mobile (the same rule the login path enforces),
+  // so seeded accounts are always loggable.
+  bdPhoneSchema.parse(phone);
   const existing = await db.query.users.findFirst({ where: eq(schema.users.phone, phone) });
   if (existing) {
     const m = await db.query.memberships.findFirst({
@@ -97,10 +101,10 @@ async function seedInbox(db: Db, orgId: string) {
 }
 
 export async function runSeed(db: Db) {
-  const t0 = await ensureAccount(db, '+8801000000000', 'ডেমো দোকান (T0)', 't0');
+  const t0 = await ensureAccount(db, '+8801700000000', 'ডেমো দোকান (T0)', 't0');
   if (t0.created) await seedFinance(db, t0.orgId, t0.userId);
 
-  const t1 = await ensureAccount(db, '+8801000000001', 'ডেমো শপ (T1)', 't1');
+  const t1 = await ensureAccount(db, '+8801700000001', 'ডেমো শপ (T1)', 't1');
   if (t1.created) {
     await seedFinance(db, t1.orgId, t1.userId);
     await seedOrders(db, t1.orgId);
